@@ -32,6 +32,9 @@ contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike")
     /// @dev prevents malicious stakers from preventing a failing test by calling checkpoint() repeatedly
     uint32 public constant MIN_CHECKPOINT_INTERVAL = 48 hours;
 
+    /// @notice threshold for utilization before high change triggers failure
+    uint256 public constant UTILIZATION_MINIMUM_THRESHOLD = 50; // TODO placeholder, need to calculate
+    
     /// @notice threshold for utilization rate change
     uint256 public constant UTILIZATION_CHANGE_THRESHOLD = 12345; // TODO placeholder, need to calculate
 
@@ -68,6 +71,11 @@ contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike")
         uint256 timeSinceLastCheckpoint = block.timestamp.sub(lastCheckpointTime);
         if (timeSinceLastCheckpoint > MIN_PERIOD) {
             uint256 currUtilization = getCurrentUtilization();
+
+            // if utilization under the min threshold return true 
+            if (currUtilization < UTILIZATION_MINIMUM_THRESHOLD) {
+                return true;
+            }
 
             // if utilization rate decreased then return true to avoid reversion due to underflow
             if (lastUtilizationRate >= currUtilization) {
