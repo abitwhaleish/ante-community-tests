@@ -69,26 +69,26 @@ contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike")
     /// @return 
     function checkTestPasses() public view override returns (bool) {
         uint256 timeSinceLastCheckpoint = block.timestamp.sub(lastCheckpointTime);
-        if (timeSinceLastCheckpoint > MIN_PERIOD) {
-            uint256 currUtilization = getCurrentUtilization();
-
-            // if utilization under the min threshold return true 
-            if (currUtilization < UTILIZATION_MINIMUM_THRESHOLD) {
-                return true;
-            }
-
-            // if utilization rate decreased then return true to avoid reversion due to underflow
-            if (lastUtilizationRate >= currUtilization) {
-                return true;
-            }
-
-            return currUtilization.sub(lastUtilizationRate).div(timeSinceLastCheckpoint) < UTILIZATION_CHANGE_THRESHOLD;
-
-        }
-
+        
         // if timeSinceLastCheckpoint is less than MIN_PERIOD just return true
         // don't revert test since this will trigger failure on associated AntePool
-        return true;
+        if (timeSinceLastCheckpoint < MIN_PERIOD) {
+            return true;
+        }
+
+        uint256 currUtilization = getCurrentUtilization();
+
+        // if utilization under the min threshold return true 
+        if (currUtilization < UTILIZATION_MINIMUM_THRESHOLD) {
+            return true;
+        }
+
+        // if utilization rate decreased then return true to avoid reversion due to underflow
+        if (lastUtilizationRate >= currUtilization) {
+            return true;
+        }
+
+        return currUtilization.sub(lastUtilizationRate).div(timeSinceLastCheckpoint) < UTILIZATION_CHANGE_THRESHOLD;
     }
 
     /// @notice calculate current CREAM utilization
