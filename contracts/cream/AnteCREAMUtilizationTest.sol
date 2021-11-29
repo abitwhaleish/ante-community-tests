@@ -13,7 +13,7 @@ interface ICToken {
 /// @title CREAM utilization rate doesn't spike
 /// @notice Ante Test to check the utilization rate of the top 5 CREAM markets doesn't
 /// exceed a threshold
-contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike") {
+contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike for majority of top 5 markets") {
     using SafeMath for uint256;
 
     // top 5 markets on CREAM by $ value
@@ -53,16 +53,19 @@ contract AnteCREAMUtilizationTest is AnteTest("CREAM utilization doesn't spike")
     function checkTestPasses() public view override returns (bool) {
         uint256 failedMarkets;
 
-        // do we need to pre-check if getCash + totalBorrows - totalReserves is negative and prevent test reversion?
         for (uint256 i = 0; i < 5; i++) {
             ICToken cToken = cTokens[i];
-            failedMarkets = failedMarkets.add(
-                (cToken.totalBorrows().mul(100).div(
-                cToken.totalBorrows().add(cToken.getCash()).sub(cToken.totalReserves())))
-                > thresholds[i]);
+            // total supply = total borrows + cash - reserves
+            // do we need to pre-check if getCash + totalBorrows - totalReserves is negative and prevent test reversion?
+            uint256 totalSupply = cToken.totalBorrows().add(cToken.getCash()).sub(cToken.totalReserves());
+            uint256 utilization = cToken.totalBorrows().mul(100).div(totalSupply);
+            if (utilization > thresholds[i]) {
+                failedMarkets = failedMarkets.add(1);
+            }
         }
 
-        return failedMarkets >= FAIL_THRESHOLD;
+        // return true if fewer than 3 markets fail
+        return failedMarkets < FAIL_THRESHOLD;
         
     }
 }
