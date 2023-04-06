@@ -7,6 +7,7 @@ Please feel free to join our Discord to bounce ideas and discuss various ideas w
 Website: [ante.finance](https://www.ante.finance/)  
 Twitter: [AnteFinance](https://twitter.com/AnteFinance)  
 Discord: [Ante Finance](https://discord.gg/yaJthzNdNG)
+Youtube: [Ante Finance](https://www.youtube.com/channel/UCJ7wxiuzI2SKw3U2gB2ZqDA)
 
 **IMPORTANT - We're incredibly excited by the enthusiasm the community is showing towards writing Ante Tests for their favorite protocols. We're still working on making the test deployment process as seamless and user-friendly as possible.**
 
@@ -63,7 +64,7 @@ This command runs your unit tests against a forked version of the ethereum mainn
 
 ### Finally, push your code to your own github repo and create a pull request against this repo
 
-Show off what you've built in our [discord](https://discord.gg/yaJthzNdNG) or tweet your PR at us on [twitter](https://twitter.com/antefinance)! **VERY IMPORTANT** - Make sure to get feedback from our community before deploying your Ante Test to main-net! Testing and feedback are the best way to catch bugs early (and avoid wasting gas).
+Show off what you've built in our [discord](https://discord.gg/yaJthzNdNG) or tweet your PR at us on [twitter](https://twitter.com/antefinance)! **VERY IMPORTANT** - Make sure to get feedback from our community before deploying your Ante Test to mainnet! Testing and feedback are the best way to catch bugs early (and avoid wasting gas).
 
 # Beginner-friendly Setup Tutorial
 
@@ -124,7 +125,7 @@ Uniswap, WBTC etc).
 ## Configuring Your Ante Test Project
 
 At this point it’s a good idea to open up the AnteTest project in your IDE. You should be able to see a
-`hardhat.config.js` file, open it up because we’re going to edit it’s contents. We’re going to add
+`hardhat.config.js` file, open it up because we’re going to edit its contents. We’re going to add
 requirements for two of the plugins we just installed, and give your project details of your Alchemy node.
 Clear your `hardhat.config.js` file, then copy and paste the code below into it, where "[ALCHEMYURL]" is
 the http address of your Alchemy node. Make `hardhat.config.js` this:
@@ -173,7 +174,7 @@ Start up your local hardhat node
 
 `npx hardhat node`
 
-Then in a seperate terminal window, also in the AnteTest directory, compile your smart contracts, and
+Then in a separate terminal window, also in the AnteTest directory, compile your smart contracts, and
 deploy them to the Ethereum fork.
 
 ```
@@ -186,3 +187,7 @@ Once finished, the smart contracts can be deployed to the Rinkeby network with a
 ```
 npx hardhat run scripts/deploy.js --network rinkeby
 ```
+
+## References
+
+[NFT Template Video](https://youtu.be/_qiGWIAyx6k)
